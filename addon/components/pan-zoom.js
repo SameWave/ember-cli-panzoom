@@ -60,7 +60,9 @@ export default Ember.Component.extend({
 
     onReset(options) {
         options = options || {};
-        this.get("$panzoom").panzoom("reset", options);
+        this.get("$panzoom")
+          .panzoom("resetZoom", true);
+
     },
 
     onSizeChanged() {
