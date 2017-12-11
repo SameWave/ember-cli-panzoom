@@ -21,8 +21,9 @@ export default Ember.Component.extend({
         easing: "ease-in-out",
         contain: false,
         startTransform: undefined,
+        panOnlyWhenZoomed: false
     },
-  
+
     // computed alias for property
     eventNamespace: Ember.computed.alias("options.eventNamespace"),
     transition: Ember.computed.alias("options.transition"),
@@ -37,7 +38,8 @@ export default Ember.Component.extend({
     easing: Ember.computed.alias("options.easing"),
     contain: Ember.computed.alias("options.contain"),
     startTransform: Ember.computed.alias("options.startTransform"),
-    
+    panOnlyWhenZoomed: Ember.computed.alias("options.panOnlyWhenZoomed"),
+
     /*
      * @method observer option change, and set panzoom option
      */
@@ -64,7 +66,7 @@ export default Ember.Component.extend({
     onSizeChanged() {
         this.get("$panzoom").panzoom('resetDimensions');
     },
-    
+
     // basically says if it's touch or not
     humanReadablePointerType(e) {
         switch (e.pointerType) {
@@ -94,6 +96,7 @@ export default Ember.Component.extend({
                 easing: this.get("easing"),
                 contain: this.get("contain"),
                 startTransform: this.get("startTransform"),
+                panOnlyWhenZoomed: this.get("panOnlyWhenZoomed"),
             })
             .on('panzoomstart', function ($event, panzoom, $previous, touches) {
                 _this.sendAction('start', panzoom, $previous, touches);
@@ -120,7 +123,7 @@ export default Ember.Component.extend({
             this.set("mousewheelHandled", true);
         }
         this.set("$panzoom", $panzoom);
-        
+
         // If parent controller has on, so we can listen to reset event.
         let parent = this.get("targetObject");
         if (parent && parent.on) {
